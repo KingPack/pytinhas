@@ -1,4 +1,3 @@
-from cgitb import text
 import requests
 import time
 from datetime import datetime
@@ -8,19 +7,22 @@ def atualiza_dados():
     while 1:
         resposta = requests.get('http://192.168.100.21/')
         if resposta.status_code == 200:
-                
-            time.sleep(2)
             
-            dados = resposta.text
+            dados = resposta.json()
             horas = datetime.now().strftime('%H:%M:%S')
-            dados_separados = dados.split("e")
+            print(f'\nHorário: {horas}')
+            print(f'Temperatura: {dados["temperatura"]} °C')
+            print(f'Umidade: {dados["umidade"]} %')
+            print(f'Agua: {dados["agua"]} ')
 
-            print(f'\nTemperatura: {dados_separados[1]} °C')
-            print(f'Umidade: {dados_separados[0]} %')
-            print(f'Horário: {horas}')
+
+            with open('dados.txt', 'a') as arquivo:
+                arquivo.write(f'{horas} - {dados["temperatura"]} - {dados["umidade"]} - {dados["agua"]}\n')
+
+            time.sleep(60)
         
         else:
             print('Erro ao atualizar dados')
-            time.sleep(2)
+            time.sleep(60)
 
 atualiza_dados()

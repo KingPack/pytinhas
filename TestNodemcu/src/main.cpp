@@ -7,12 +7,18 @@
 #include <DHT.h>
 #include <DHT_U.h>
 #include <LCD_I2C.h>
+#include <ArduinoJson.h>
 
+#define agua A0
 LCD_I2C lcd(0x27, 16, 2); // Default address of most PCF8574 modules, change according
 DHTesp dht;
 
+
 const char* ssid = "Oi_9B63";
 const char* password = "5G3c7T2a";
+
+
+
 
 ESP8266WebServer server(80);
 
@@ -20,8 +26,9 @@ ESP8266WebServer server(80);
 void handleRoot() {
   String umidade = String(dht.getHumidity());
   String temperatura = String(dht.getTemperature());
+  String json = "{ \"temperatura\": " + temperatura + ", \"umidade\": " + umidade + ", \"agua\": \"" + agua + "\" }";
  
-  server.send(200, "text/plain", umidade+"e"+temperatura);  // 70.0e23.0
+  server.send(200, "application/json", json);  // 70.0e23.0
 }
 
 void handleNotFound(){
@@ -30,10 +37,10 @@ void handleNotFound(){
 }
 
 void setup(void){
-  dht.setup(14, DHTesp::DHT11); // D5 = DAT
-  lcd.begin();                  // D1=SCL - D2=SDA
-  lcd.backlight();
   Serial.begin(115200);
+  lcd.begin();
+  dht.setup(14, DHTesp::DHT11); // D5
+  lcd.backlight();
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   Serial.println("");
@@ -73,10 +80,17 @@ void loop(void){
   Serial.print("Temperatura (C): ");
   Serial.print(t, 1);
   Serial.print("\t");
+  Serial.print("Agua: ");
+  Serial.print(analogRead(agua));
+  Serial.print("\t");
+
+
+
   Serial.println();
   lcd.print(" UMIDA | TEMPE "); // You can make spaces using well... spaces
-  lcd.setCursor(1,2); // Or setting the cursor in the desired position.
+  lcd.setCursor(0,1); // Or setting the cursor in the desired position.
   lcd.print(texto_display);
+
   delay(500);
   // lcd.clear();
 }
