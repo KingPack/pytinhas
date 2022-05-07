@@ -1,17 +1,30 @@
 name: GitHub Actions Demo
-on: [push]
+on: [push, pull_request]
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+  python-lint:
+    runs-os: ubuntu-latest
+    name: CI Workflow
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: checkout source repo
+      uses: actions/checkout@v2
+    
+    - name: linting
+      uses: kingpack/pylinter@v1.0.0
+      with:
+        python-root: '.'
+        flake8-flags: ''
+        mypy-flags: ''
+        fail-on-isort: false
+        
+    - name: commit isort changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A && git diff-index --cached --quiet HEAD || git commit -m 'isort'
+        
+    - name: push isort changes
+      uses: ad-m/github-push-actions@v0.5.0
+      with:
+         github_token: ${{ secrets.GH_ACCESS_TOKEN }}
+         branch: ${{ github.ref }}
+    
