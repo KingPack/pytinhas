@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 10420,
+            "driver": "PostgreSQL",
+            "name": "pytinhas",
+            "database": "postgres",
+            "username": "root",
+            "password": "root"
+        }
+    ]
+}

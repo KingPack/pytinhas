@@ -19,6 +19,3 @@ def atualiza_dados():
         else:
             print('Erro ao atualizar dados')
             time.sleep(60)
-
-
-atualiza_dados()
