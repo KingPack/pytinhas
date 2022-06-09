@@ -26,3 +26,4 @@ def atualiza_dados():
             time.sleep(60)
 
 atualiza_dados()
+print('Testando Branch')
