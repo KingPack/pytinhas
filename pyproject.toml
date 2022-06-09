@@ -7,6 +7,7 @@ authors = ["Hendrek Rodrigues <llhendrek@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.27.1"
+Flask = "^2.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
