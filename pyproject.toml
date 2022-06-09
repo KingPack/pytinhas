@@ -7,7 +7,15 @@ authors = ["Hendrek Rodrigues <llhendrek@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.27.1"
+flake8 = "^4.0.1"
 Flask = "^2.1.2"
+psycopg2-binary = "^2.9.3"
+flasgger = "^0.9.5"
+ipython = "^8.3.0"
+SQLAlchemy = "^1.4.36"
+marshmallow = "^3.15.0"
+WTForms = "^3.0.1"
+Flask-WTF = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -15,3 +23,7 @@ pytest = "^5.2"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = "py3.10"

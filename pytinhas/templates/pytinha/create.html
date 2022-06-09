@@ -1,0 +1,14 @@
+
+<form method="POST" action="/">
+  {{ form.csrf_token }}
+  {{ form.name.label }} {{ form.name(size=20) }}
+  {{ form.birthday.label }} {{ form.birthday(size=20) }}
+  {{ form.description.label }} {{ form.description(size=20) }}
+  {{ form.gender.label }} {{ form.gender(size=20) }}
+  {{ form.specie.label }} {{ form.specie(size=20) }}
+  {{ form.fase.label }} {{ form.fase(size=20) }}
+  {{ form.humidity.label }} {{ form.humidity(size=20) }}
+  {{ form.temperature.label }} {{ form.temperature(size=20) }}
+
+  <input type="submit" value="Go">
+</form>
