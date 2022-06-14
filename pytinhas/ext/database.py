@@ -1,4 +1,4 @@
-from pytinhas.config import *
+from pytinhas.config import SQLALCHEMY_DATABASE_URL
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
