@@ -22,7 +22,8 @@ class PytinhaModel(Base):
     fase = Column(String)
     humidity = Column(String)
     temperature = Column(String)
-    
+
+
 class PytinhaSchema(Schema):
 
     id = fields.Integer()
