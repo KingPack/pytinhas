@@ -65,7 +65,8 @@ def create_app():
 
             return redirect(url_for('create_confirm'))
 
-        return render_template('pytinha/create.html', form=form)
+        else:
+            return render_template('pytinha/create.html', form=form)
 
     @app.route('/list', methods=['GET', 'POST'])
     def list_pytinha():
