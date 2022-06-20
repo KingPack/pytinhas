@@ -8,6 +8,7 @@ def atualiza_dados():
         resposta = requests.get('http://192.168.100.21/')
         if resposta.status_code == 200:
             dados = resposta.json()
+            dados = resposta.json()
             horas = datetime.now().strftime('%H:%M:%S')
             print(f'\nHorário: {horas}')
             print(f'Temperatura: {dados["temperatura"]} °C')
