@@ -22,10 +22,10 @@ const int sun = 2;              // D4
 
 DHTesp dht;
 LCD_I2C lcd(0x27, 16, 2);       // D1 - D2
-ESP8266WebServer server(80);    // 192.168.100.21 
+ESP8266WebServer server(80);    // 192.168.100.21
 
 
-void handleNotFound(){
+void handleNotFound() {
   String message = "Endpoint Not Allowed\n";
   server.send(404, "text/plain", message);
 }
@@ -79,7 +79,7 @@ void sunOff() {
   }
 }
 
-void setup(void){
+void setup(void) {
   pinMode(waterpumpsensor, OUTPUT);
   pinMode(sun, OUTPUT);
 
@@ -87,6 +87,7 @@ void setup(void){
   Serial.begin(115200);
   lcd.begin();
   lcd.backlight();
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
@@ -97,63 +98,35 @@ void setup(void){
 
   }
 
-  // Serial.println("Connected to : " + String(ssid) + "\n" +"IP address : " + WiFi.localIP());
   Serial.println("Connected to : " + String(ssid));
   Serial.print("IP address : ");
   Serial.println(WiFi.localIP());
-  // lcd.print(ssid);
-  // lcd.setCursor(0,1);
-  // lcd.print(WiFi.localIP());
-  // lcd.clear();
 
   if (MDNS.begin("esp8266")) {
     Serial.println("MDNS responder started");
   }
-  
+
   server.on("/", handleRoot);
   server.on("/pump_on/", waterPumpOn);
   server.on("/pump_off/", waterPumpOff);
   server.on("/sun_on/", sunOn);
-  server.on("/sun_off", sunOff);
-
+  server.on("/sun_off/", sunOff);
   server.onNotFound(handleNotFound);
-
   server.begin();
   Serial.println("HTTP server started");
 }
 
-void loop(void){
+void loop(void) {
   server.handleClient();
-  float u = dht.getHumidity();
-  float t = dht.getTemperature();
-  int waterString = analogRead(water);
+  float humidity = dht.getHumidity();
+  float temperature = dht.getTemperature();
 
-  String waterCalc = String(waterString);
-
-  if (waterString > 0 and waterString < 10) {
-    // return "000" + String(valor);
-    waterCalc = String("000" + waterString);
-  }
-
-  if (waterString > 9 and waterString < 100) {
-    waterCalc = String("00" +waterString);
-  }
-
-  if (waterString > 99 and waterString < 1000) {
-    waterCalc = String("0" + waterString);
-  }
-
-  if (waterString > 999 and waterString < 10000) {
-    waterCalc = String(waterString);
-  }
-
-
-  String texto_display = String(u) + "|" + String(t) + "|" + String(waterString);
+  String texto_display = String(humidity) + "|" + String(temperature) + "|" + String(analogRead(water));
   Serial.print("Umidade (%): ");
-  Serial.print(u, 1);
+  Serial.print(humidity, 1);
   Serial.print("\t");
   Serial.print("Temperatura (C): ");
-  Serial.print(t, 1);
+  Serial.print(temperature, 1);
   Serial.print("\t");
   Serial.print("Agua: ");
   Serial.print(analogRead(water));
@@ -162,5 +135,5 @@ void loop(void){
   lcd.print("UMIDA|TEMPE|H2O"); // You can make spaces using well... spaces
   lcd.setCursor(0,2); // Or setting the cursor in the desired position.
   lcd.print(texto_display);
-  delay(2000);
+  delay(100);
 }
