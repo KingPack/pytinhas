@@ -1,3 +1,7 @@
 {
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "cmake.sourceDirectory": "/home/hendrek/Documents/github/hendrek/pytinhas/scripts/Esp8266/.pio/libdeps/nodemcuv2/ArduinoJson",
+    "files.associations": {
+        "string": "cpp"
+    }
 }
