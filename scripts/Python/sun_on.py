@@ -13,14 +13,17 @@ def activate_sun_relay():
             global activated
             activated = True
         else:
-            print(f"Failed to activate sun relay. Status code: {response.status_code}")
+            print(f"""Failed to activate sun relay.
+                      Status code: {response.status_code}""")
+
     except Exception as e:
         print(f"Error making HTTP request: {e}")
+
 
 if __name__ == "__main__":
     while True:
         current_time = time.strftime("%H:%M")
-        
+
         if current_time >= "08:00":
             if not activated:
                 activate_sun_relay()
@@ -33,5 +36,5 @@ if __name__ == "__main__":
                 print("The function has already been activated.")
                 time.sleep(10)
             else:
-                print("It's not yet 8:00 AM, or the function has already been activated.")
+                print("The function has already been activated.")
                 time.sleep(12)
